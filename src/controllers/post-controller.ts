@@ -20,8 +20,10 @@ export const createPosts = (req = request, res = response) => {
 
     posts.push(newPost);
 
-    res.json({
-        ok: true,
-        post: newPost
-    }); 
+    res.status(201).json(newPost);
+
+    // res.json({
+    //     ok: true,
+    //     post: newPost
+    // }); 
 }
