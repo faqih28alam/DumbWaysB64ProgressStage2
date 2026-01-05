@@ -1,8 +1,10 @@
-# Stage 2 Day 1
+# Stage 2 Day 1 - Blog / Checkpoint 1
 Repository to store our learning progress at Dumbways.id Bootcamp
 
-## Topic
+## Topic - Task
 Day 1 - Basic Express with Typescipt(without database, Dummy data)
+- Setup Express
+- Create Create & Read Post (Blog)
 
 ## 🛠️ How to Setup Typescript
 ```text
