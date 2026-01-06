@@ -1,11 +1,13 @@
 // IMPORT EXPRESS
 import express, { Request, Response } from 'express';
 import postRoutes from './routes/post-route'; // Import post routes
+import userRoutes from './routes/user-route'; // Import user routes
 
 const app = express();      // Set variable to hold express
 
 app.use(express.json());    // Middleware to parse JSON bodies
 app.use('/api/v1', postRoutes); // Use post routes with specified prefix
+app.use('/api/v1', userRoutes); // Use user routes with specified prefix
 
 // Health Check / Welcome Route
 app.get('/', (req: Request, res: Response) => {

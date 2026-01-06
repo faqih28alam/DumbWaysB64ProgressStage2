@@ -22,4 +22,11 @@ model posts {
   createdAt DateTime @default(now())
 }
 
+model users {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique      // Added unique so usernames aren't duplicated
+  password  String
+  createdAt DateTime @default(now())    
+}
+
 
