@@ -1,13 +1,17 @@
 // IMPORT EXPRESS
-import express from "express";
-import router from './routes/post-route'; // Import post routes
+import express, { Request, Response } from 'express';
+import postRoutes from './routes/post-route'; // Import post routes
 
 const app = express();      // Set variable to hold express
-const PORT = 3000;          // Set port number
 
 app.use(express.json());    // Middleware to parse JSON bodies
-app.use("/api/v1", router); // Use post routes with specified prefix
+app.use('/api/v1', postRoutes); // Use post routes with specified prefix
 
-app.listen(PORT, () => {    // Start server and listen on specified port
-  console.log(`Server is running on http://localhost:${PORT}`); // Log message when server starts
+// Health Check / Welcome Route
+app.get('/', (req: Request, res: Response) => {
+  res.send('Welcome to the Blog API!');
+});
+
+app.listen(process.env.PORT || 3000, () => {    // Start server and listen on specified port
+  console.log(`Server is running on http://localhost:${process.env.PORT || 3000}`); // Log message when server starts
 });
