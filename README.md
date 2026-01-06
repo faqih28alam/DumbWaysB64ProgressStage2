@@ -5,7 +5,7 @@ Repository to store our learning progress at Dumbways.id Bootcamp
 - Progress task on **Blog Project**
 - Progress task on **Shopping Cart Project**
 
-Checkpoint 1 = Morning Class Task
+Checkpoint 1 = Morning Class Task <br>
 Checkpoint 2 = Afternoon Class Task
 
 Check the branch to see daily learning progress.
