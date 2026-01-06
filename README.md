@@ -1,14 +1,13 @@
-# Stage 2 Day 1 - Shopping Cart / Checkpoint 2
+# 📝 Stage 2 Day 2 - Shopping Cart
 Repository to store our learning progress at Dumbways.id Bootcamp
 
-## Topic & Task
-Day 1 - Basic Express with Typescipt(without database, Dummy data)
-- Setup Express
-- Create CRUD Product
-- Create CRUD Order related to Product (Shopping Cart)
-- Create Postman Documentation
+## 🎯 Topic & Task
+Day 2 - Express + Prisma Basic CRUD
+- Define Products's Table Schema
+- Migrate Products's Table Database using **Prisma** CLI
+- Create API to Update & Delate Products's Table using Prisma
 
-## 🛠️ How to Setup Typescript
+## 🛠️ How to 
 ```text
 - make a folder to contain the project
 - npm init -y                                               # to initiliaze Node.js Environment
@@ -23,9 +22,9 @@ Day 1 - Basic Express with Typescipt(without database, Dummy data)
 
 ```
 
-## 🛠️ Project Setup
+## 📂 Project Structure
 ```text
-- Create files & folders so the structure like these:
+This project follows a modular structure to separate concerns:
 
 ├── src/
 │   ├── app.ts                  # Entry point (Express setup)
@@ -40,13 +39,16 @@ Day 1 - Basic Express with Typescipt(without database, Dummy data)
 │   │   └── order-model.ts      # Order Schema (linked to Product ID)
 │   └── middlewares/            # Optional: for validation
 └── package.json
+```
 
-- Import Express in app.ts
-- add code in routes
-- add code in models
-- add code in controllers
+## 🚀 Implementation Flow
+```text
+1. Model: Define the interface/type.
+2. Controller: Write functions to handle CRUD.
+3. Routes: Map the controller functions to HTTP methods (GET/POST).
+4. App: Import and use the routes in app.ts.
 
-
+💡 Note on Naming Conventions: > In Express, it is common to use kebab-case (e.g., post-controller.ts) or camelCase for files. Consistency is key!
 ```
 
 #### Notes
