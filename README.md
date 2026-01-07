@@ -1,11 +1,12 @@
-# 📝 Stage 2 Day 2 - Shopping Cart
+# 📝 Stage 2 Day 3 - Shopping Cart
 Repository to store our learning progress at Dumbways.id Bootcamp
 
 ## 🎯 Topic & Task
-Day 2 - Express + Prisma Basic CRUD
-- Setup PostgreeSQL + Prisma Schema for Products's Table
-- Migrate Products's Table Database using **Prisma** CLI
-- Create API to Update & Delate Products's Table using Prisma
+Day 3 - Prisma Advance Query
+- Implement Filtering & Sorting products's table based on price or stock
+- Implement **Pagination** on endpoint/products using limit & offset
+- Create endpoint/orders/summary to visualize total sum order per user using **grouping**
+- Add Pagination on Summary Result
 
 ## 🛠️ How to Setup Typescript 
 ```text
