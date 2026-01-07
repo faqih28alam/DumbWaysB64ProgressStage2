@@ -1,31 +1,40 @@
 import { Request, Response } from "express";
-import { products, Product } from "../models/product-model";
 import { prisma } from "../connection/client";
 
 // Controller functions for Read products
 export const getProducts = async (req: Request, res: Response) => {
     // Implement Pagination, Filtering, Sorting (for Day 3 tasks)
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
-    const offset = (page - 1) * limit;                          // offset is how many items to skip
+
+    // Filtering
+    const {
+        sortBy = "price",
+        order = "asc",
+        minPrice,
+        maxPrice,
+        limit = 10,
+        offset = 0,
+    } = req.query;
+
+    const filters: any = {};
+    if (minPrice) filters.price = { gte: parseFloat(minPrice as string) };
+    if (maxPrice) filters.price = { ...(filters.price || {}), lte: parseFloat(maxPrice as string) };
 
     try {
         const products = await prisma.product.findMany({
-            skip: offset,
-            take: limit,
-            // Sorting
+            where: filters,
             orderBy: {
-                name: 'asc' // Example: sort by name ascending
-            }
-            // Filtering can be added here based on query parameters
+                [sortBy as string]: order as 'asc' | 'desc',
+            },
+            skip: parseInt(offset as string),
+            take: parseInt(limit as string),
         });
+
+        const totalItems = await prisma.product.count({ where: filters });
+
         res.status(200).json({
             message: "Products fetched successfully",
             data: products,
-            metadata: {
-                currentPage: page,
-                itemsPerPage: limit
-            }
+            totalItems: totalItems,
         });
     } catch (error) {
         console.error('Error fetching products:', error);

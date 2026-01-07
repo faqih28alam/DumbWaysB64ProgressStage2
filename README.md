@@ -82,7 +82,7 @@ Day 3 - Prisma Advance Query
 - add your code seed.ts
 - edit package.json,
     "prisma": {
-        "seed": "ts-node src/prisma/seed.ts"
+        "seed": "ts-node src/connection/seed.ts"
       }, 
 - npx prisma db seed
 ```

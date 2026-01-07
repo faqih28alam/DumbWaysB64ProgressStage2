@@ -14,10 +14,27 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// Ensure your Product model is still there
+model User {
+  id     Int     @id @default(autoincrement())
+  name   String
+  email  String  @unique
+  orders Order[]
+}
+
 model Product {
-  id        Int      @id @default(autoincrement())
-  name      String
-  price     Float
-  createdAt DateTime @default(now())
+  id     Int     @id @default(autoincrement())
+  name   String
+  price  Int
+  stock  Int     @default(0) // value to add to the missing data
+  orders Order[]
+}
+
+model Order {
+  id        Int @id @default(autoincrement())
+  userId    Int
+  productId Int
+  quantity  Int
+
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 }

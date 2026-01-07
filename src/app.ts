@@ -1,5 +1,5 @@
 // IMPORT EXPRESS
-import express, { Application, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import productRoutes from './routes/product-route'; //import product routes
 import orderRoutes from './routes/order-route';     //import order routes
 
