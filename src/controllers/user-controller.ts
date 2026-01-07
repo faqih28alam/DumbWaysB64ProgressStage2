@@ -4,11 +4,11 @@ import { prisma } from "../connection/client";
 // Controller function for CREATE user
 export const createUser = async (req = request, res = response) => {
     try {    
-        const { username, password } = req.body;
-        const newUser = await prisma.users.create({
+        const { email, username } = req.body;
+        const newUser = await prisma.user.create({
             data: {
                 username,
-                password
+                email
             }
         });
         res.status(201).json({
@@ -24,7 +24,7 @@ export const createUser = async (req = request, res = response) => {
 export const getUsers = async (req = request, res = response) => {
     try {    
         // Simulate async operation, e.g., fetching from a database
-        const fetchedUsers = await prisma.users.findMany();
+        const fetchedUsers = await prisma.user.findMany();
         res.status(200).json({
             message: 'Users fetched successfully',
             fetchedUsers});
@@ -38,7 +38,7 @@ export const getUsers = async (req = request, res = response) => {
 export const deleteUser = async (req = request, res = response) => {
     try {
         const { id } = req.params;
-        const deletedUser = await prisma.users.delete({
+        const deletedUser = await prisma.user.delete({
             where: { id: Number(id) }
         });
         res.status(200).json({
@@ -54,12 +54,12 @@ export const deleteUser = async (req = request, res = response) => {
 export const updateUser = async (req = request, res = response) => {
     try {    
         const { id } = req.params;
-        const { username, password } = req.body;
-        const updatedUser = await prisma.users.update({
+        const { email, username } = req.body;
+        const updatedUser = await prisma.user.update({
             where: { id: Number(id) },
             data: {
-                username,
-                password
+                email,
+                username
             }
         });
         res.status(200).json({

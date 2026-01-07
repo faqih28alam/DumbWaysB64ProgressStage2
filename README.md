@@ -1,11 +1,16 @@
-# 📝 Stage 2 Day 2 - Blog
+# 📝 Stage 2 Day 3 - Blog
 Repository to store our learning progress at Dumbways.id Bootcamp
 
 ## 🎯 Topic & Task
-Day 2 - Express + Prisma Basic CRUD
-- Setup PostgreSQL + Prisma
-- Migrate database for users & posts table
-- Create API for CRUD users & posts using **prisma**
+Day 3 - Prisma Advance Query
+- Create a new schema for Posts, Comments, and Users tables using Prisma.
+- Implement Filtering to display a list of Posts based on User.
+- Implement Pagination for the list of Comments on each Post.
+- Implement Grouping to count the number of comments per Post.
+- Create a /posts endpoint with a Filtering feature based on User.
+- Create a /posts/:id/comments endpoint with a Pagination feature to limit the number of comments displayed.
+- Create a /posts/comments-summary endpoint to display the number of comments per Post using Grouping.
+- Add Pagination and additional Filters for the summary results (e.g., filter only Posts with a comment count > 10).
 
 ## 🛠️ How to Setup Typescript
 ```text
@@ -44,26 +49,73 @@ Follow these steps to initialize the TypeScript environment:
     url      = env("DATABASE_URL")
   }
 
-  model posts {
-    id        Int      @id @default(autoincrement())
-    title     String
-    content   String
-    author    String
-    createdAt DateTime @default(now())
+  model Post {
+      id        Int       @id @default(autoincrement())
+      title     String
+      content   String
+      authorId  Int
+      author    User      @relation(fields: [authorId], references: [id])
+      comments  Comment[]
+      createdAt DateTime  @default(now())
   }
 
 - npx prisma generate                                       # generate the client code
 - npx prisma migrate dev --name init                        # push schema to PostgreSQL
 - create src/connection/client.ts
+- npx prisma studio                                         # to see Data in localhost:555, execute at other bash
+```
+
+## 🛠️ How to do Seeding
+```text
+- Edit the model in schema.prisma: 
+    model User {
+      id        Int       @id @default(autoincrement())
+      username  String    @unique
+      posts     Post[]
+      comments  Comment[]
+    }
+
+    model Post {
+      id        Int       @id @default(autoincrement())
+      title     String
+      content   String
+      authorId  Int
+      author    User      @relation(fields: [authorId], references: [id])
+      comments  Comment[]
+      createdAt DateTime  @default(now())
+    }
+
+    model Comment {
+      id        Int      @id @default(autoincrement())
+      text      String
+      postId    Int
+      authorId  Int
+      post      Post     @relation(fields: [postId], references: [id])
+      author    User     @relation(fields: [authorId], references: [id])
+      createdAt DateTime @default(now())
+    }
+- npx prisma migrate dev --name init
+- npx prisma generate
+- add src/connection/seed.ts
+- add your code seed.ts
+- edit package.json,
+    "prisma": {
+        "seed": "ts-node src/connection/seed.ts"
+      }, 
+- npx prisma db seed
 ```
 
 ## 📂 Project Structure
 ```text
 This project follows a modular structure to separate concerns:
 
+├── prisma/
+│   ├── schema.prisma           # Prisma Schema (v6 style)
+│   └── migrations/             # Database migration history
 ├── src/
 │   ├── app.ts                  # Application entry point & configuration
 │   ├── connection/
+│   │   ├── seed.ts             # to perform seeding
 │   │   └── client.ts           # Prisma Client instantiation
 │   ├── routes/                 # API endpoint definitions (URL paths)
 │   │   ├── post-route.ts       # Routes for Post-related resources
@@ -76,6 +128,7 @@ This project follows a modular structure to separate concerns:
 │   └── ...
 ├── .env                        # Environment variables (DB URL)
 ├── package.json                # Project dependencies & scripts
+├── package-lock.json
 └── tsconfig.json
 ```
 
@@ -86,7 +139,8 @@ This project follows a modular structure to separate concerns:
 2. Setup Prisma 6: Install specific version 6 to match learning materials.
 3. Model Definition: Define the Product table in schema.prisma.
 4. Migration: Use npx prisma migrate dev to create the table in PostgreSQL.
-5. Controller Logic: Use prisma.product.create/findMany/update/delete in your controllers.
+5. Seeding: Create Data based on model and insert Datas to the Database
+6. Controller Logic: Use prisma.product.create/findMany/update/delete in your controllers.
 
 💡 Note on Naming Conventions: > In Express, it is common to use kebab-case (e.g., post-controller.ts) or camelCase for files. Consistency is key!
 ```
