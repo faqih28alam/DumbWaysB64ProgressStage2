@@ -1,4 +1,4 @@
-# 📝 Stage 2 Day 1 - Blog
+# 📝 Stage 2 Day 2 - Blog
 Repository to store our learning progress at Dumbways.id Bootcamp
 
 ## 🎯 Topic & Task
@@ -82,10 +82,11 @@ This project follows a modular structure to separate concerns:
 ---
 ## 🚀 Implementation Flow
 ```text
-1. Model: Define the Post interface/type.
-2. Controller: Write functions to handle getPosts and createPost.
-3. Routes: Map the controller functions to HTTP methods (GET/POST).
-4. App: Import and use the routes in app.ts.
+1. Setup TypeScript: Configure the compiler and folder structure.
+2. Setup Prisma 6: Install specific version 6 to match learning materials.
+3. Model Definition: Define the Product table in schema.prisma.
+4. Migration: Use npx prisma migrate dev to create the table in PostgreSQL.
+5. Controller Logic: Use prisma.product.create/findMany/update/delete in your controllers.
 
 💡 Note on Naming Conventions: > In Express, it is common to use kebab-case (e.g., post-controller.ts) or camelCase for files. Consistency is key!
 ```
