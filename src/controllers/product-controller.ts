@@ -25,8 +25,8 @@ export const getProducts = async (req: Request, res: Response) => {
             orderBy: {
                 [sortBy as string]: order as 'asc' | 'desc',
             },
-            skip: parseInt(offset as string),
-            take: parseInt(limit as string),
+            skip: Number(offset),
+            take: Number(limit),
         });
 
         const totalItems = await prisma.product.count({ where: filters });

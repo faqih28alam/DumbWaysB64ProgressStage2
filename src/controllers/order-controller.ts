@@ -34,14 +34,14 @@ export const getOrders = async (req = request, res = response) => {
 
   try { 
     const grouped = await prisma.order.groupBy({
-      by: ['userId'],
+      by: ["userId"],
       _sum: { quantity: true },
       orderBy: { userId: 'asc' },
       take: limit,
       skip: offset
     });
 
-  res.status(200).json({ Message: "Orders fetched successfully", grouped });
+  res.status(200).json({ Message: "Orders fetched successfully", data: grouped });
   } catch (error) {
     res.status(500).json({ message: "Error fetching orders", error });
   }

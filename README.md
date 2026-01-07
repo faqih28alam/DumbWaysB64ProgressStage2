@@ -47,6 +47,7 @@ Day 3 - Prisma Advance Query
 
 - npx prisma generate                                       # generate the client code
 - npx prisma migrate dev --name init                        # push schema to PostgreSQL
+- npx prisma studio                                         # to see Data in localhost:555, execute at other bash
 ```
 
 ## 🛠️ How to do Seeding
