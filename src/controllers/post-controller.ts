@@ -102,3 +102,45 @@ export const getCommentsByPost = async (req = request, res = response) => {
         res.status(500).json({ error: 'Failed to fetch comments' });
     }
 };
+
+// Controller function to READ comment count per post
+export const getCommentsSummary = async (req = request, res = response) => {
+    const limit = Number(req.query.limit) || 10;
+    const offset = Number(req.query.offset) || 1;
+    const minComments = Number(req.query.minComments) || 0; // Filter for comment count
+
+    try {
+        const summary = await prisma.comment.groupBy({
+            by: ['postId'],
+            _count: {
+                id: true, // This counts the number of comments
+            },
+            having: {
+                id: {
+                    _count: {
+                        gt: minComments, // Filter e.g., only posts with > 10 comments
+                    },
+                },
+            },
+            orderBy: {
+                postId: 'asc' 
+            },
+            take: limit,
+            skip: (offset - 1) * limit,
+        });
+        
+        // Format the result to show "total comments"
+        const formattedSummary = summary.map(item => ({
+            postId: item.postId,
+            "total comments": item._count.id // Accessing the count value
+        }));
+
+        res.status(200).json({
+            message: 'Comments summary fetched successfully',
+            data: formattedSummary
+        });
+    } catch (error) {
+        console.error('Error fetching summary:', error);
+        res.status(500).json({ error: 'Failed to fetch comments summary' });
+    }
+};
