@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/product', createProduct);       // Buat Product
 router.get('/products', getProducts);           // Lihat Product
-router.delete('/products/:id', deleteProduct);  // Hapus Product
-router.put('/products/:id', updateProduct);     // Update Product
+router.delete('/product/:id', deleteProduct);  // Hapus Product
+router.put('/product/:id', updateProduct);     // Update Product
 
 export default router;

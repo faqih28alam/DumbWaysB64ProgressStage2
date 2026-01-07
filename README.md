@@ -48,6 +48,44 @@ Day 2 - Express + Prisma Basic CRUD
 - npx prisma migrate dev --name init                        # push schema to PostgreSQL
 ```
 
+## 🛠️ How to do Seeding
+```text
+- Edit the model in schema.prisma
+    model User {
+      id     Int     @id @default(autoincrement())
+      name   String
+      email  String  @unique
+      orders Order[]
+    }
+
+    model Product {
+      id     Int     @id @default(autoincrement())
+      name   String
+      price  Int
+      stock  Int
+      orders Order[]
+    }
+
+    model Order {
+      id        Int @id @default(autoincrement())
+      userId    Int
+      productId Int
+      quantity  Int
+
+      user    User    @relation(fields: [userId], references: [id])
+      product Product @relation(fields: [productId], references: [id])
+    }
+- npx prisma migrate dev --name init
+- npx prisma generate
+- add src/connection/seed.ts
+- add your code seed.ts
+- edit package.json,
+    "prisma": {
+        "seed": "ts-node src/prisma/seed.ts"
+      }, 
+- npx prisma db seed
+```
+
 ## 📂 Project Structure
 ```text
 ├── prisma/
@@ -56,6 +94,7 @@ Day 2 - Express + Prisma Basic CRUD
 ├── src/
 │   ├── app.ts                  # Entry point
 │   ├── connection/
+│   │   ├── seed.ts             # to perform seeding
 │   │   └── client.ts           # Prisma Client instantiation
 │   ├── routes/
 │   │   ├── product-route.ts    
@@ -66,6 +105,7 @@ Day 2 - Express + Prisma Basic CRUD
 │   └── middlewares/            
 ├── .env                        # Environment variables (DB URL)
 ├── package.json
+├── package-lock.json
 └── tsconfig.json
 ```
 
@@ -74,8 +114,9 @@ Day 2 - Express + Prisma Basic CRUD
 1. Setup TypeScript: Configure the compiler and folder structure.
 2. Setup Prisma 6: Install specific version 6 to match learning materials.
 3. Model Definition: Define the Product table in schema.prisma.
-4. Migration: Use npx prisma migrate dev to create the table in PostgreSQL.
-5. Controller Logic: Use prisma.product.create/findMany/update/delete in your controllers.
+4. Seeding: Create Data based on model and insert Datas to the Database
+5. Migration: Use npx prisma migrate dev to create the table in PostgreSQL.
+6. Controller Logic: Use prisma.product.create/findMany/update/delete in your controllers.
 
 💡 Note on Naming Conventions: > In Express, it is common to use kebab-case (e.g., post-controller.ts) or camelCase for files. Consistency is key!
 ```
