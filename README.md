@@ -2,8 +2,16 @@
 Repository to store our learning progress at Dumbways.id Bootcamp
 
 ## 🎯 Topic & Task
-Day 4 - Prisma Transaction, and Middleware
+Day 4 - **Prisma Transaction**, and **Middleware** (Case: Send User Points)
 
+- Setup Prisma Schema and PostgreSQL for the Users table (includes a points field)
+- **Implement Transactions** with Prisma to ensure data consistency during point transfers between users
+- **Custom Validation** to check for sufficient point balance before performing a transfer
+- **Exception Handling and Middleware** to handle errors (e.g., insufficient points or user not found)
+- **Create a /transfer-points endpoint** to execute the point transaction
+- Ensure the process of deducting points from the sender and adding points to the recipient occurs within a single transaction
+- Validation to ensure the number of points transferred is greater than 0
+- **Implement Middleware to handle errors** and provide appropriate error messages if validation fails (e.g., "Insufficient points")
 
 ## 🛠️ How to Setup Typescript 
 ```text
@@ -85,6 +93,23 @@ Day 4 - Prisma Transaction, and Middleware
 - npx prisma db seed
 ```
 
+## 🛠️ Step to Implement ACID (Atomicity, Consistency, Isolation, Durability) for this Project
+```text
+- Update schema.prisma
+Add your new field: points Int @default(0)
+- Sync Database and Update Types
+npx prisma migrate dev --name add_points_to_user
+- Update seed.ts
+Open your seed file and add the new 'points' data to your objects
+- Execute the Seed
+npx prisma db seed
+- npx prisma migrate reset
+- npx prisma generate
+- add code to src/controllers/transferPoints-controller.ts
+- add code to src/routes/transferPoints-route.ts
+- add code to app.ts
+```
+
 ## 📂 Project Structure
 ```text
 ├── prisma/
@@ -96,12 +121,14 @@ Day 4 - Prisma Transaction, and Middleware
 │   │   ├── seed.ts             # to perform seeding
 │   │   └── client.ts           # Prisma Client instantiation
 │   ├── routes/
+│   │   ├── transferPoint-route.ts
 │   │   ├── product-route.ts    
 │   │   └── order-route.ts      
 │   ├── controllers/
+│   │   ├── transferPoint-controller.ts
 │   │   ├── product-controller.ts
 │   │   └── order-controller.ts
-│   └── middlewares/            
+│   └── middlewares/            # to bridge proccess 
 ├── .env                        # Environment variables (DB URL)
 ├── package.json
 ├── package-lock.json
@@ -116,6 +143,7 @@ Day 4 - Prisma Transaction, and Middleware
 4. Seeding: Create Data based on model and insert Datas to the Database
 5. Migration: Use npx prisma migrate dev to create the table in PostgreSQL.
 6. Controller Logic: Use prisma.product.create/findMany/update/delete in your controllers.
+7. Middleware : to handle validation between process (perform ACID)
 
 💡 Note on Naming Conventions: > In Express, it is common to use kebab-case (e.g., post-controller.ts) or camelCase for files. Consistency is key!
 ```
