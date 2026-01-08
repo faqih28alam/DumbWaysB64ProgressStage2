@@ -1,3 +1,5 @@
+// app.ts 
+
 // IMPORT EXPRESS
 import express, { Request, Response } from 'express';
 import productRoutes from './routes/product-route'; //import product routes
