@@ -8,10 +8,9 @@ export const transferPoints = async (req: Request, res: Response, next: any) => 
     const { senderId, recipientId, amount } = req.body;         // amount to represent points to transfer
     console.log(amount, senderId, recipientId);                 // Log the amount, senderId, and recipientId
 
-    // // Check if amount is more than 0
-    // if (amount <= 0) { throw new AppError('Transfer amount must be greater than 0', 400); }
-
     try {
+        // Check if amount is more than 0
+        if (amount <= 0) { throw new AppError('Transfer amount must be greater than 0', 400); }
         // 1. Check user existence (sender & recipient)
         const [senderExists, recipientExists] = await Promise.all([
             prisma.user.findUnique({ where: {id: senderId} }),
@@ -41,13 +40,21 @@ export const transferPoints = async (req: Request, res: Response, next: any) => 
                 where: {id: recipientId},
                 data: {points: {increment: amount}},
             });
+
+            // Respond with success message
+            res.status(200).json({ 
+                success: true,
+                message: `Successfully transferred ${amount} points from User ${senderId} to User ${recipientId}` 
+            });
         });
 
-    } catch (error) {
-        next(error);
+    } catch (error: any) {
+        res.status(400).json({ 
+            success: false,
+            message: error.message || 'Point transfer failed'
+        });
     }
 
-    res.status(200).json({ message: 'Points transferred successfully' });
 }
 
 // Controller function to READ users points with end point /transfer-point/:userId
