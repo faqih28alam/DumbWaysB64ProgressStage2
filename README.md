@@ -2,16 +2,15 @@
 Repository to store our learning progress at Dumbways.id Bootcamp
 
 ## 🎯 Topic & Task
-Day 4 - **Prisma Transaction**, and **Middleware** (Case: Send User Points)
+Day 4 - **Prisma Transaction**, and **Middleware** (Case: Stock CRUD)
 
-- Setup Prisma Schema and PostgreSQL for the Users table (includes a points field)
-- **Implement Transactions** with Prisma to ensure data consistency during point transfers between users
-- **Custom Validation** to check for sufficient point balance before performing a transfer
-- **Exception Handling and Middleware** to handle errors (e.g., insufficient points or user not found)
-- **Create a /transfer-points endpoint** to execute the point transaction
-- Ensure the process of deducting points from the sender and adding points to the recipient occurs within a single transaction
-- Validation to ensure the number of points transferred is greater than 0
-- **Implement Middleware to handle errors** and provide appropriate error messages if validation fails (e.g., "Insufficient points")
+* Set up Prisma Schema for the Products, Stocks, and Suppliers tables.
+* Manage simultaneous stock updates from multiple suppliers using Batch Queries.
+* Validate stock items to ensure new stock values are not negative.
+* Implement Exception Handling with Middleware to handle stock-related errors, such as negative stock or "supplier not found."
+* Create a `/suppliers/stock` endpoint using Transactions and Batch Queries to update stock items from multiple suppliers at once.
+* Add Custom Validation to ensure updated stock values cannot be negative.
+* Create Middleware to handle errors using Exception Handling, such as invalid stock or "supplier not found."
 
 ## 🛠️ How to Setup Typescript 
 ```text
