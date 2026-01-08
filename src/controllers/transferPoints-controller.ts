@@ -21,6 +21,8 @@ export const transferPoints = async (req: Request, res: Response, next: any) => 
         if (!senderExists) { throw new AppError('Sender not found', 404); }
         // Check if recipient exists
         if (!recipientExists) { throw new AppError('Recipient not found', 404); }
+        // Check if sender and recipient are the same
+        if (senderId === recipientId) { throw new AppError('Cannot transfer points to yourself', 400); }
         
         // 2. Transaction (Atomic)
         await prisma.$transaction(async (tx) => {
@@ -40,20 +42,24 @@ export const transferPoints = async (req: Request, res: Response, next: any) => 
                 where: {id: recipientId},
                 data: {points: {increment: amount}},
             });
-
-            // Respond with success message
-            res.status(200).json({ 
-                success: true,
-                message: `Successfully transferred ${amount} points from User ${senderId} to User ${recipientId}` 
-            });
         });
 
-    } catch (error: any) {
-        res.status(400).json({ 
-            success: false,
-            message: error.message || 'Point transfer failed'
+        // Respond with success message after Atomic transaction Done
+        res.status(200).json({ 
+            success: true,
+            message: `Successfully transferred ${amount} points from User ${senderId} to User ${recipientId}` 
         });
-    }
+    }catch (error) {
+        next(error); // This sends the error to your global handler in app.ts
+    } 
+    
+    
+    // catch (error: any) {
+    //     res.status(400).json({ 
+    //         success: false,
+    //         message: error.message || 'Point transfer failed'
+    //     });
+    // }
 
 }
 

@@ -11,16 +11,19 @@ const app = express();
 // Middleware to parse JSON bodies (Crucial for Postman POST requests)
 app.use(express.json());
 
-// global error handler: middleware for any unexpected errors
-app.use((err: any, req: any, res: any, next: any) => {
-  console.error(err);
-  res.status(err.status || 500).send({ error: err.message || 'Internal Server Error' });
-});
-
 // Routes
 app.use('/api/v1', productRoutes);
 app.use('/api/v1', orderRoutes);
 app.use('/api/v1', transferPointsRoutes);
+
+// global error handler: middleware for any unexpected errors 
+app.use((err: any, req: any, res: any, next: any) => {
+  const statusCode = err.statusCode || 500;
+  res.status(statusCode).json({ // Changed .send to .json for consistency
+    success: false,
+    message: err.message || 'Internal Server Error' 
+  });
+});
 
 // Health Check / Welcome Route
 app.get('/', (req: Request, res: Response) => {
