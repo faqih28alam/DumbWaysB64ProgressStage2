@@ -1,12 +1,9 @@
-# 📝 Stage 2 Day 3 - Shopping Cart
+# 📝 Stage 2 Day 4 - Mini Store
 Repository to store our learning progress at Dumbways.id Bootcamp
 
 ## 🎯 Topic & Task
-Day 3 - Prisma Advance Query
-- Implement Filtering & Sorting products's table based on price or stock
-- Implement **Pagination** on endpoint/products using limit & offset
-- Create endpoint/orders/summary to visualize total sum order per user using **grouping**
-- Add Pagination on Summary Result
+Day 4 - Prisma Transaction, and Middleware
+
 
 ## 🛠️ How to Setup Typescript 
 ```text
