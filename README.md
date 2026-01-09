@@ -1,16 +1,9 @@
-# 📝 Stage 2 Day 4 - Mini Store
+# 📝 Stage 2 Day 5 - Mini Store
 Repository to store our learning progress at Dumbways.id Bootcamp
 
 ## 🎯 Topic & Task
-Day 4 - **Prisma Transaction**, and **Middleware** (Case: Stock CRUD)
+Day 5 - 
 
-* Set up Prisma Schema for the Products, Stocks, and Suppliers tables.
-* Manage simultaneous stock updates from multiple suppliers using Batch Queries.
-* Validate stock items to ensure new stock values are not negative.
-* Implement Exception Handling with Middleware to handle stock-related errors, such as negative stock or "supplier not found."
-* Create a `/suppliers/stock` endpoint using Transactions and Batch Queries to update stock items from multiple suppliers at once.
-* Add Custom Validation to ensure updated stock values cannot be negative.
-* Create Middleware to handle errors using Exception Handling, such as invalid stock or "supplier not found."
 
 ## 🛠️ How to Setup Typescript 
 ```text
@@ -91,18 +84,28 @@ Day 4 - **Prisma Transaction**, and **Middleware** (Case: Stock CRUD)
       }, 
 - npx prisma db seed
 ```
+## 🛠️ How to Setup JWT
+```text
+- npm isntall joi jsonwebtoken bcrypt
+- npm install -D @types/bcrypt @types/joi @types/jsonwebtoken
+- add src/utils/jwt.ts for signature token and verification token 
+- add jwt secret key in .env
+- continue project to controllers / middlewares
+```
 
-## 🛠️ Step to setup Day 4 project
+## 🛠️ Step to setup Day 5 project
 ```text
 - Edit schema.prisma (Add your new model/fields).
 - Edit seed.ts (Update your dummy data).
 - Run npx prisma migrate dev --name init (This creates the migration and generates types).
 - Run npx prisma migrate reset (This wipes the mess, applies migrations, generates types again, and runs your seed).
 - Run npx prisma db seed (Execute the Seed, not necessary)
+- install package: bycrypt, joi, jsonwebtoken
+- Setup JWT
 - Run npx prisma studio (check the database)
-- add code to src/controllers/transferPoints-controller.ts
-- add code to src/routes/transferPoints-route.ts
-- add code to app.ts
+- add src/middlewares/auth-middleware.ts for authentication
+- add src/routes/auth-route.ts for authentication
+- add src/controllers/auth-controller.ts
 ```
 
 ## 📂 Project Structure
@@ -123,8 +126,12 @@ Day 4 - **Prisma Transaction**, and **Middleware** (Case: Stock CRUD)
 │   │   ├── transferPoint-controller.ts
 │   │   ├── product-controller.ts
 │   │   └── order-controller.ts
+│   ├── utils/
+│   │   ├── app-error.ts        # to handle error
+│   │   └── jwt.ts              # to handle JWT
 │   └── middlewares/            # to bridge proccess
-│       └── validateStockUpdate-middleware.ts 
+│       ├── auth-middleware.ts                        # to handle authentication and authorization JWT
+│       └── validateStockUpdate-middleware.ts         # to handle validation for stock update
 ├── .env                        # Environment variables (DB URL)
 ├── package.json
 ├── package-lock.json
@@ -138,8 +145,9 @@ Day 4 - **Prisma Transaction**, and **Middleware** (Case: Stock CRUD)
 3. Model Definition: Define the Product table in schema.prisma.
 4. Seeding: Create Data based on model and insert Datas to the Database
 5. Migration: Use npx prisma migrate dev to create the table in PostgreSQL.
-6. Controller Logic: Use prisma.product.create/findMany/update/delete in your controllers.
-7. Middleware : to handle validation between process (perform ACID)
+6. Setup JWT for authentication
+7. Controller Logic: Use prisma.product.create/findMany/update/delete in your controllers.
+8. Middleware : to handle validation between process (perform ACID)
 
 💡 Note on Naming Conventions: > In Express, it is common to use kebab-case (e.g., post-controller.ts) or camelCase for files. Consistency is key!
 ```
