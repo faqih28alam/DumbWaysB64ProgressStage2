@@ -92,18 +92,14 @@ Day 4 - **Prisma Transaction**, and **Middleware** (Case: Stock CRUD)
 - npx prisma db seed
 ```
 
-## 🛠️ Step to Implement ACID (Atomicity, Consistency, Isolation, Durability) for this Project
+## 🛠️ Step to setup Day 4 project
 ```text
-- Update schema.prisma
-Add your new field: points Int @default(0)
-- Sync Database and Update Types
-npx prisma migrate dev --name add_points_to_user
-- Update seed.ts
-Open your seed file and add the new 'points' data to your objects
-- Execute the Seed
-npx prisma db seed
-- npx prisma migrate reset
-- npx prisma generate
+- Edit schema.prisma (Add your new model/fields).
+- Edit seed.ts (Update your dummy data).
+- Run npx prisma migrate dev --name init (This creates the migration and generates types).
+- Run npx prisma migrate reset (This wipes the mess, applies migrations, generates types again, and runs your seed).
+- Run npx prisma db seed (Execute the Seed, not necessary)
+- Run npx prisma studio (check the database)
 - add code to src/controllers/transferPoints-controller.ts
 - add code to src/routes/transferPoints-route.ts
 - add code to app.ts
@@ -127,7 +123,8 @@ npx prisma db seed
 │   │   ├── transferPoint-controller.ts
 │   │   ├── product-controller.ts
 │   │   └── order-controller.ts
-│   └── middlewares/            # to bridge proccess 
+│   └── middlewares/            # to bridge proccess
+│       └── validateStockUpdate-middleware.ts 
 ├── .env                        # Environment variables (DB URL)
 ├── package.json
 ├── package-lock.json

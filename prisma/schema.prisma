@@ -15,29 +15,48 @@ generator client {
 }
 
 model User {
-  id     Int     @id @default(autoincrement())
-  name   String
-  email  String  @unique
-  points Int     @default(0)
-  createdAt DateTime @default(now())
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
+  points    Int       @default(0)
+  createdAt DateTime  @default(now())
 
   orders Order[]
 }
 
 model Product {
-  id     Int     @id @default(autoincrement())
-  name   String
-  price  Int
-  stock  Int     @default(0) // value to add to the missing data
-  orders Order[]
+  id      Int     @id @default(autoincrement())
+  name    String
+  price   Int
+  stocks  Stock[]
+  orders  Order[]
 }
 
 model Order {
-  id        Int @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   userId    Int
   productId Int
   quantity  Int
 
-  user    User    @relation(fields: [userId], references: [id])
-  product Product @relation(fields: [productId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
+  product   Product   @relation(fields: [productId], references: [id])
+}
+
+model Stock{
+  id          Int       @id @default(autoincrement())
+  quantity    Int
+  productId   Int
+  supplierId  Int
+  product     Product   @relation(fields: [productId], references: [id])
+  supplier    Supplier  @relation(fields: [supplierId], references: [id])    
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Supplier {
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  password  String
+  stocks    Stock[]
 }

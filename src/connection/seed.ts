@@ -1,3 +1,4 @@
+// seed.ts
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
@@ -6,6 +7,8 @@ const prisma = new PrismaClient()
 async function main() {
   // Clear old data
   await prisma.order.deleteMany();
+  await prisma.stock.deleteMany();
+  await prisma.supplier.deleteMany();
   await prisma.product.deleteMany();
   await prisma.user.deleteMany();
 
@@ -23,11 +26,11 @@ async function main() {
   // 2. Create Products
   await prisma.product.createMany({
     data: [
-      { name: "Keyboard", price: 350_000, stock: 12 },
-      { name: "Mouse", price: 150_000, stock: 30 },
-      { name: "Monitor", price: 1_500_000, stock: 5 },
-      { name: "Laptop", price: 8_000_000, stock: 3 },
-      { name: "USB Hub", price: 100_000, stock: 50 },
+      { name: "Keyboard", price: 350_000 },
+      { name: "Mouse", price: 150_000 },
+      { name: "Monitor", price: 1_500_000},
+      { name: "Laptop", price: 8_000_000 },
+      { name: "USB Hub", price: 100_000 },
     ],
   });
   // Fetch them to get the IDs
@@ -42,6 +45,35 @@ async function main() {
       { userId: users[2].id, productId: products[1].id, quantity: 4 },
     ],
   });
+  // Fetch them to get the IDs
+  const orders = await prisma.order.findMany();
+
+  // 4. Create Suppliers
+  await prisma.supplier.createMany({
+    data: [
+      { email: "tech@example", password: "tech" },
+      { email: "office@example", password: "office" },
+      { email: "store@example", password: "store" },
+      { email: "warehouse@example", password: "warehouse" },
+    ],
+  });
+  // Fetch them to get the IDs
+  const suppliers = await prisma.supplier.findMany();
+
+  // 5. Create Stocks using the fetched arrays
+  await prisma.stock.createMany({
+    data: [
+      { productId: products[0].id, supplierId: suppliers[0].id, quantity: 50 },
+      { productId: products[1].id, supplierId: suppliers[0].id, quantity: 100 },
+      { productId: products[2].id, supplierId: suppliers[1].id, quantity: 20 },
+      { productId: products[3].id, supplierId: suppliers[1].id, quantity: 10 },
+      { productId: products[4].id, supplierId: suppliers[2].id, quantity: 200 },
+    ],
+  });
+  // Fetch them to get the IDs
+  const stocks = await prisma.stock.findMany();
+
+  console.log({ users, products, stocks, suppliers });
 }
 
 main()

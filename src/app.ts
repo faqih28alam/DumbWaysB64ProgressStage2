@@ -5,6 +5,7 @@ import express, { Request, Response } from 'express';
 import productRoutes from './routes/product-route'; //import product routes
 import orderRoutes from './routes/order-route';     //import order routes
 import transferPointsRoutes from './routes/transferPoints-route'; //import transfer points routes
+import supplierRoutes from './routes/supplier-route'; //import supplier routes
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use('/api/v1', productRoutes);
 app.use('/api/v1', orderRoutes);
 app.use('/api/v1', transferPointsRoutes);
+app.use('/api/v1', supplierRoutes);
 
 // global error handler: middleware for any unexpected errors 
 app.use((err: any, req: any, res: any, next: any) => {
