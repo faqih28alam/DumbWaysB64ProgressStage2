@@ -18,7 +18,7 @@ app.use('/api/v1', productRoutes);
 app.use('/api/v1', orderRoutes);
 app.use('/api/v1', transferPointsRoutes);
 app.use('/api/v1', supplierRoutes);
-app.use('/api/v1/auth', authRoutes);
+app.use('/auth', authRoutes);
 
 // global error handler: middleware for any unexpected errors 
 app.use((err: any, req: any, res: any, next: any) => {

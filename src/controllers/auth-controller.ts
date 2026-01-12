@@ -1,28 +1,38 @@
 // auth-controller.ts
-import { Request, Response } from 'express';
-import { generateToken, userPayload } from '../utils/jwt';
+// src/controllers/auth.controller.ts
+import { Request, Response } from "express";
+import { registerUser, loginUser } from "../services/auth-service";
+import { loginSchema, registerSchema } from "../validations/auth-validation";
 
-// controller to handle user login
-export const handleLogin = (req: Request, res: Response) => {
-    const { username, password } = req.body;
-
-    // Dummy user for demonstration purposes
-    const dummyUser = {
-        id: 1,
-        username: 'testuser',
-        password: 'password123',
-        role: 'user'
-    };
-
-    if (username === dummyUser.username && password === dummyUser.password) {
-        const token = generateToken(dummyUser as userPayload);
-        res.json({ token });
-    } else {
-        res.status(401).json({ message: 'Invalid credentials' });
+export async function handleRegister(req: Request, res: Response) {
+  try {
+    const { error } = registerSchema.validate(req.body);
+    if (error) {
+      res.status(400).json({ message: error.message });
+      return;
     }
-    
 
-};
+    const { email, password } = req.body;
+    const user = await registerUser(email, password);
+    res.status(201).json({ message: "User registered", user });
+  } catch (err: any) {
+    res.status(400).json({ message: err.message });
+  }
+}
 
-// controller to handle user registration
-export const handleRegister = (req: Request, res: Response) => {};
+export async function handleLogin(req: Request, res: Response) {
+  try {
+    const { error } = loginSchema.validate(req.body);
+    if (error) {
+      res.status(400).json({ message: error.message });
+      return;
+    }
+
+    const { email, password } = req.body;
+
+    const result = await loginUser(email, password);
+    res.json({ message: "Login success", ...result });
+  } catch (err: any) {
+    res.status(401).json({ message: err.message });
+  }
+}
