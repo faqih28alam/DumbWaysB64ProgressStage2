@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../connection/client";
+import { productSchema } from "../validations/product-validation";
 
 // Controller functions for Read products
 export const getProducts = async (req: Request, res: Response) => {
@@ -99,6 +100,42 @@ export const updateProduct = async (req: Request, res: Response) => {
     } catch (error) {
         console.error('Error updating product:', error);
         res.status(500).json({ error: 'Failed to update product' });
+    }
+};
+
+// Additional controller function to Add multiple products (bulk insert)
+export const addMultipleProducts = async (req: Request, res: Response) => {
+    const products = req.body.products; // Expecting an array of products in the request body
+    // ADD THIS CHECK: Ensure products exists and is an array
+    if (!products || !Array.isArray(products)) {
+        return res.status(400).json({ 
+            message: "Invalid input. 'products' must be an array." 
+        });
+    }
+
+    try {
+        // Validate each product
+        for (const product of products) {
+            const { error } = productSchema.validate(product);
+            if (error) {
+                return res.status(400).json({ message: `Validation error for product ${JSON.stringify(product)}: ${error.message}` });
+            }
+        }
+
+        const createdProducts = await prisma.product.createMany({
+            data: products,
+        });
+        res.status(201).json({
+            ok: true,
+            message: "Multiple products added successfully",
+            products: createdProducts,
+        });
+    } catch (err: any) {
+        console.error('Error adding multiple products:', err);
+        res.status(500).json({
+            error: 'Failed to add multiple products',    
+            message: `Validation error: ${err.message}`   
+        })
     }
 };
 

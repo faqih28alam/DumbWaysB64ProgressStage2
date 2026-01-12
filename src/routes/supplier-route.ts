@@ -9,6 +9,8 @@ import {
     updateStock,
 } from '../controllers/supplier-controller';
 import { validateStockUpdate } from '../middlewares/validateStockUpdate-middleware'
+import { handleLoginSupplier } from '../controllers/auth-controller';
+import { authMiddleware } from '../middlewares/auth-middleware';
 
 const router = Router(); 
 
@@ -20,5 +22,10 @@ router.delete('/supplier/:id', deleteSupplier); // Delete a supplier
 // Endpoint stocks
 router.get('/stocks', getStocks);                  // Get all stocks
 router.post('/supplier/stocks', validateStockUpdate, updateStock); // Update stock for a supplier
+// Endpont with JWT authentication
+router.post('/suppliers/login', handleLoginSupplier);               // Supplier login
+router.get('/suppliers/products', authMiddleware, (req, res) => {   // Protected route   
+    res.json({ Message: "protected route" });
+})
 
 export default router;
