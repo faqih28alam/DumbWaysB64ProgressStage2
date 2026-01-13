@@ -1,9 +1,11 @@
-# 📝 Stage 2 Day 5 - Mini Store
+# 📝 Stage 2 Day 6 - Mini Store
 Repository to store our learning progress at Dumbways.id Bootcamp
 
 ## 🎯 Topic & Task
-Day 5 - 
-
+Day 6 - File Upload, Session, and Security
+- Multer
+- Session
+- Security
 
 ## 🛠️ How to Setup Typescript 
 ```text
